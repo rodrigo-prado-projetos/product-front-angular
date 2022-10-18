@@ -1,0 +1,151 @@
+<link rel="stylesheet" href="https://unpkg.com/@clr/ui/clr-ui.min.css" />
+
+<clr-select-container *ngIf="selecionarPerfil" (click)="perfil()">
+  <label>Selecione o perfil</label>
+  <select clrSelect name="options" [(ngModel)]="options">
+    <option value="usuario">Usuario</option>
+    <option value="administrador">Administrador</option>
+  </select>
+</clr-select-container>
+
+<div *ngIf="funcionalidade && usuario">
+  <h3>Selecione a funcionalidade: </h3>
+  <clr-radio-wrapper>
+    <input type="radio" clrRadio value="option1" name="options"
+      (click)="selecionarFuncionalidade('buscarTodosOsProdutos')" />
+    <label>Buscar todos os produtos</label>
+  </clr-radio-wrapper>
+  <clr-radio-wrapper>
+    <input type="radio" clrRadio value="option2" name="options"
+      (click)="selecionarFuncionalidade('buscarProdutoPorId')" />
+    <label>Buscar produto por id</label>
+  </clr-radio-wrapper>
+</div>
+
+<div *ngIf="funcionalidade && administrator">
+  <h3>Selecione a funcionalidade: </h3>
+  <clr-radio-wrapper>
+    <input type="radio" clrRadio value="option1" name="options"
+      (click)="selecionarFuncionalidade('buscarTodosOsProdutos')" />
+    <label>Buscar todos os produtos</label>
+  </clr-radio-wrapper>
+  <clr-radio-wrapper>
+    <input type="radio" clrRadio value="option2" name="options"
+      (click)="selecionarFuncionalidade('buscarProdutoPorId')" />
+    <label>Buscar produto por id</label>
+  </clr-radio-wrapper>
+  <clr-radio-wrapper>
+    <input type="radio" clrRadio value="option3" name="options" (click)="selecionarFuncionalidade('inserirProduto')" />
+    <label>Inserir produto</label>
+  </clr-radio-wrapper>
+  <clr-radio-wrapper>
+    <input type="radio" clrRadio value="option4" name="options" (click)="selecionarFuncionalidade('alterarProduto')" />
+    <label>Alterar produto</label>
+  </clr-radio-wrapper>
+  <clr-radio-wrapper>
+    <input type="radio" clrRadio value="option5" name="options" (click)="selecionarFuncionalidade('excluirProduto')" />
+    <label>Excluir produto</label>
+  </clr-radio-wrapper>
+</div>
+<button class="btn btn-danger-outline" *ngIf="funcionalidade" (click)="voltarParaSelecionarPerfil()">Voltar</button>
+
+<div class="alert alert-danger" role="alert" *ngIf="isIdInformado">
+  <div class="alert-items">
+    <div class="alert-item static">
+      <div class="alert-icon-wrapper">
+        <cds-icon class="alert-icon" shape="exclamation-circle"></cds-icon>
+      </div>
+      <span class="alert-text">
+        Informar id do produto!
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="clr-row" *ngIf="isExcluirProduto">
+  <div class="clr-col-4">
+    <form clrForm>
+      <input clrInput placeholder="Informa id do produto" name="input" [(ngModel)]="input" />
+    </form>
+  </div>
+  <div class="clr-col-4">
+    <button class="btn btn-outline" (click)="excluirProdutoPorId()">Concluir</button>
+  </div>
+</div>
+
+<div class="clr-row" *ngIf="isAlterarProduto">
+  <div class="clr-col-2">
+    <form clrForm>
+      <input clrInput placeholder="Id produto" name="inputDescricao" [(ngModel)]="inputId" />
+    </form>
+  </div>
+  <div class="clr-col-2">
+    <form clrForm>
+      <input clrInput placeholder="Descricao produto" name="inputDescricao" [(ngModel)]="inputDescricao" />
+    </form>
+  </div>
+  <div class="clr-col-2">
+    <form clrForm>
+      <input clrInput placeholder="Valor do produto" name="inputValor" [(ngModel)]="inputValor" />
+    </form>
+  </div>
+  <div class="clr-col-2">
+    <form clrForm>
+      <input clrInput placeholder="Marca do produto" name="inputMarca" [(ngModel)]="inputMarca" />
+    </form>
+  </div>
+  <div class="clr-col-4">
+    <button class="btn btn-outline" (click)="alterarProduto()">Salvar</button>
+  </div>
+</div>
+
+<div class="clr-row" *ngIf="isInserirProduto">
+  <div class="clr-col-3">
+    <form clrForm>
+      <input clrInput placeholder="Descricao produto" name="inputDescricao" [(ngModel)]="inputDescricao" />
+    </form>
+  </div>
+  <div class="clr-col-3">
+    <form clrForm>
+      <input clrInput placeholder="Valor do produto" name="inputValor" [(ngModel)]="inputValor" />
+    </form>
+  </div>
+  <div class="clr-col-3">
+    <form clrForm>
+      <input clrInput placeholder="Marca do produto" name="inputMarca" [(ngModel)]="inputMarca" />
+    </form>
+  </div>
+  <div class="clr-col-3">
+    <button class="btn btn-outline" (click)="inserirProduto()">Salvar</button>
+  </div>
+</div>
+
+<div class="clr-row" *ngIf="isBuscarProdutoPorId">
+  <div class="clr-col-4">
+    <form clrForm>
+      <input clrInput placeholder="Informa id do produto" name="input" [(ngModel)]="input" />
+    </form>
+  </div>
+  <div class="clr-col-4">
+    <button class="btn btn-outline" (click)="buscarProdutoPorId()">Buscar</button>
+  </div>
+</div>
+
+<table class="table" *ngIf="mostrarTabelaDeProdutos">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>DESCRIÇÃO</th>
+      <th>VALOR</th>
+      <th>MARCA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{product.id}}</td>
+      <td>{{product.descricao}}</td>
+      <td>{{product.valor}}</td>
+      <td>{{product.marca}}</td>
+    </tr>
+  </tbody>
+</table>
