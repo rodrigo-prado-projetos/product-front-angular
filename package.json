@@ -3,13 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
+    "postinstall": "ng build --aot --prod",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
+  "engines": {
+    "node": "10.13.0",
+    "npm": "6.4.1"
+  },
   "private": true,
-
   "styles": [
     "node_modules/@clr/ui/clr-ui.min.css"
   ],
@@ -28,6 +32,7 @@
     "@clr/core": "^4.0.15",
     "@clr/icons": "^13.0.2",
     "@clr/ui": "^13.8.3",
+    "express": "^4.18.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
